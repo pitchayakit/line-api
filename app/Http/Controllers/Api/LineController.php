@@ -17,7 +17,8 @@ class LineController extends Controller
 {
 
     public function index () {
-        return "Hello world";
+        $messages = Message::all();
+        return view('messageHistory',['messages' => $messages]);
     }
 
     public function webhook (Request $request)
@@ -26,7 +27,7 @@ class LineController extends Controller
         $user_id = $request->events[0]['source']['userId'];
 
         $message = new Message;
-        $message->message = $text;
+        $message->text = $text;
         $message->user = $user_id;
         $message->save();
     }
