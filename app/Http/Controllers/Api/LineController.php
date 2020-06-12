@@ -10,6 +10,8 @@ use LINE\LINEBot\SignatureValidator;
 use LINE\LINEBot\HTTPClient\CurlHTTPClient;
 use LINE\LINEBot\MessageBuilder\TextMessageBuilder;
 use Exception;
+use App\Models\Message;
+
 
 class LineController extends Controller
 {
@@ -25,5 +27,12 @@ class LineController extends Controller
 
         $httpClient = new CurlHTTPClient ($lineAccessToken);
         $lineBot = new LINEBot($httpClient, ['channelSecret' => $lineChannelSecret]);
+
+        $text = $request->events[0]['message']['text'];
+        $user_id = $request->events[0]['source']['userId'];
+
+        $message = new Message;
+        $message->message = $text;
+        $message->save();
     }
 }
