@@ -22,17 +22,12 @@ class LineController extends Controller
 
     public function webhook (Request $request)
     {
-        $lineAccessToken = "xRseAo79uy/jbI3cKbdv1C4vc6MeDAznQF0p3uZcdez4ELe4ICaFBFmb9IbHX6aNxCQUr/hCA/xAv6cEZ1cxIFKSo36l7nZctXBYRxeEod2KfiCMQXlgGBTMhnHFLt0G5D7QEzfLMqDiLN2+q8pFtgdB04t89/1O/w1cDnyilFU=";
-        $lineChannelSecret = "8e1013c5f9ab0275e13cbee535192fc3";
-
-        $httpClient = new CurlHTTPClient ($lineAccessToken);
-        $lineBot = new LINEBot($httpClient, ['channelSecret' => $lineChannelSecret]);
-
         $text = $request->events[0]['message']['text'];
         $user_id = $request->events[0]['source']['userId'];
 
         $message = new Message;
         $message->message = $text;
+        $message->user = $user_id;
         $message->save();
     }
 }
